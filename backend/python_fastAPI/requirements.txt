@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-dotenv
+pydantic
+langchain
+langchain-community
+langchain-core
+langchain-google-genai
+duckduckgo-search
+pypdf
