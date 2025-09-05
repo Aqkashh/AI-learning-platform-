@@ -1,42 +1,204 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App-header {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 100%; 
+  box-sizing: border-box;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+p {
+  color: #7f8c8d;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
-.card {
-  padding: 2em;
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.read-the-docs {
-  color: #888;
+.tabs button {
+  background-color: #ecf0f1;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.tabs button:hover {
+  background-color: #bdc3c7;
+}
+
+.tabs button.active {
+  background-color: #3498db;
+  color: #fff;
+  font-weight: bold;
+}
+
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.input-container input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.input-container input[type="file"] {
+  width: 100%;
+  padding: 10px;
+}
+
+.input-container button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.input-container button:hover:not(:disabled) {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.input-container button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+
+.summary-container,
+.quiz-container {
+  margin-top: 30px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.summary-container h2,
+.quiz-container h2 {
+  color: #2c3e50;
+  margin-top: 0;
+}
+
+.summary-container p {
+  line-height: 1.6;
+  color: #34495e;
+}
+
+.summary-container button {
+  background-color: #f39c12;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.summary-container button:hover:not(:disabled) {
+  background-color: #e67e22;
+  transform: translateY(-2px);
+}
+
+.summary-container button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.quiz-container {
+  margin-top: 20px;
+}
+
+.question {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.question h3 {
+  color: #34495e;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.options {
+  list-style-type: none;
+  padding: 0;
+}
+
+.options li {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+  border: 1px solid #eee;
+}
+
+.options li.correct {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  font-weight: bold;
+}
+
+.options li:last-child {
+  margin-bottom: 0;
+}
+
+.error-message {
+  color: #e74c3c;
+  background-color: #fbe9e7;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 20px;
 }

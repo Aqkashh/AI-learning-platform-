@@ -1,31 +1,21 @@
-// server.js
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const multer = require('multer');
+const FormData = require('form-data');
 
 const app = express();
+const upload = multer();
 const PORT = process.env.PORT || 5000;
 const FASTAPI_URL = process.env.FASTAPI_URL || 'http://127.0.0.1:8000';
 
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// Enable CORS for all routes
-// This allows your React app (on a different port) to make requests
 app.use(cors());
 
-// Main API gateway endpoint
-// It will forward the request to the FastAPI service
-app.post('/api/process-topic', async (req, res) => {
+// Web-based summarization 
+app.post('/api/process-topic', express.json(), async (req, res) => {
     try {
         const { topic } = req.body;
-
-        // Make a POST request to the FastAPI service
-        const response = await axios.post(`${FASTAPI_URL}/summarize-web`, {
-            topic: topic
-        });
-
-        // Forward the response from FastAPI back to the frontend
+        const response = await axios.post(`${FASTAPI_URL}/summarize-web`, { topic });
         res.json(response.data);
     } catch (error) {
         console.error('Error forwarding request to FastAPI:', error.message);
@@ -33,7 +23,56 @@ app.post('/api/process-topic', async (req, res) => {
     }
 });
 
-// Start the server
+// PDF summarization 
+app.post('/api/process-pdf', upload.single('file'), async (req, res) => {
+    try {
+        const form = new FormData();
+        form.append('file', req.file.buffer, { filename: req.file.originalname, contentType: req.file.mimetype });
+
+        const response = await axios.post(`${FASTAPI_URL}/summarize-pdf`, form, {
+            headers: form.getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error forwarding request to FastAPI:', error.message);
+        res.status(500).json({ error: 'Failed to process request.' });
+    }
+});
+
+// Combined summarization 
+app.post('/api/process-combined', upload.single('file'), async (req, res) => {
+    try {
+        const form = new FormData();
+        form.append('topic', req.body.topic);
+        form.append('file', req.file.buffer, { filename: req.file.originalname, contentType: req.file.mimetype });
+
+        const response = await axios.post(`${FASTAPI_URL}/summarize-combined`, form, {
+            headers: form.getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error forwarding request to FastAPI:', error.message);
+        res.status(500).json({ error: 'Failed to process request.' });
+    }
+});
+
+// Quiz generation (handles JSON body)
+app.post('/api/generate-quiz', express.json(), async (req, res) => {
+    try {
+        const { summary } = req.body;
+        const response = await axios.post(`${FASTAPI_URL}/generate-quiz`, { summary }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error forwarding request to FastAPI:', error.message);
+        res.status(500).json({ error: 'Failed to process request.' });
+    }
+});
 app.listen(PORT, () => {
     console.log(`Node.js API Gateway listening on port ${PORT}`);
 });
